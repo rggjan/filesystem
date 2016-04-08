@@ -261,6 +261,62 @@ public:
 		}
 	}
 
+	path dirname() const {
+		path result(*this);
+		result.leafs.pop_back();
+		return result;
+	}
+
+	std::string basename() const {
+		return this->leafs.back();
+	}
+
+	path resolve(const path &from) const {
+		if (!from.absolute) {
+			throw std::runtime_error("path::resolve(): 'from' path must be absolute");
+		}
+
+		if (this->type != from.type) {
+			throw std::runtime_error("path::resolve(): 'from' path has different type");
+		}
+		
+		if (this->absolute) {
+			return *this;
+		}
+
+		path result;
+		result.absolute = true;
+		result.type = this->type;
+
+		for (std::string leaf : from.leafs) {
+			if (leaf == ".") {
+				continue;
+			}
+
+			if (leaf == ".." && result.leafs.size()) {
+				result.leafs.pop_back();
+				continue;
+			}
+
+			result.leafs.push_back(leaf);
+		}
+
+		for (std::string leaf : this->leafs) {
+			if (leaf == ".") {
+				continue;
+			}
+
+			if (leaf == "..") {
+				result = result.dirname();
+				continue;
+			}
+
+			result.leafs.push_back(leaf);
+		}
+
+		return result;
+	}
+
 	path &operator =(const path &path) {
 		this->type = path.type;
 		this->leafs = path.leafs;
