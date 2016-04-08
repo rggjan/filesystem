@@ -265,10 +265,10 @@ public:
 		return this->leafs.back();
 	}
 
-	path resolve() const {
+	path resolve(bool tryabsolute = true) const {
 		path result(*this);
 
-		if (this->exists()) {
+		if (tryabsolute && this->exists()) {
 			result = this->make_absolute();
 		}
 
