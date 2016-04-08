@@ -202,6 +202,10 @@ public:
 		return result;
 	}
 
+	std::string operator [](size_t i) const {
+		return this->leafs[i];
+	}
+
 	path operator /(const path &other) const {
 		if (other.absolute) {
 			throw std::runtime_error("path::operator/(): expected a relative path!");

@@ -13,6 +13,10 @@ int main(int argc, char **argv) {
 #endif
     path path2("dir 3");
 
+    cout << path1.length() << endl;
+    for (size_t i = 0; i < path1.length(); i++) {
+	cout << ": " << path1[i] << endl;
+    }
     cout << path1.exists() << endl;
     cout << path1 << endl;
     cout << (path1/path1.as_relative()) << endl;
