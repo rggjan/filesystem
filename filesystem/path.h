@@ -97,6 +97,22 @@ public:
 		return this->absolute;
 	}
 
+	std::vector<std::string>::iterator begin() {
+		return this->leafs.begin();
+	}
+
+	std::vector<std::string>::iterator end() {
+		return this->leafs.end();
+	}
+
+	const std::vector<std::string>::const_iterator cbegin() const {
+		return this->leafs.cbegin();
+	}
+
+	const std::vector<std::string>::const_iterator cend() const {
+		return this->leafs.cend();
+	}
+
 	path make_absolute() const {
 #if !defined(_WIN32)
 		char temp[PATH_MAX];
