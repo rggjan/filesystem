@@ -15,6 +15,7 @@ int main(int argc, char **argv) {
 
     cout << path1.exists() << endl;
     cout << path1 << endl;
+    cout << (path1/path1.as_relative()) << endl;
     cout << (path1/path2) << endl;
     cout << (path1/path2).parent_path() << endl;
     cout << (path1/path2).parent_path().parent_path() << endl;

@@ -308,6 +308,18 @@ public:
 		return result;
 	}
 
+	path as_relative() const {
+		path result(*this);
+		result.absolute = false;
+		return result;
+	}
+
+	path as_absolute() const {
+		path result(*this);
+		result.absolute = true;
+		return result;
+	}
+
 	path resolve(const path &to) const {
 		path result = this->resolve();
 
