@@ -42,9 +42,9 @@ int main(int argc, char **argv) {
     cout << "filesystem/path.h:resolve = " << path("filesystem/path.h").resolve() << endl;
     cout << "/a/b/c/../../d/e/foo/../././././bar.h:resolve = " << path("/a/b/c/../../d/e/foo/../././././bar.h").resolve() << endl;
     cout << "filesystem/../path.h:resolve = " << path("filesystem/../path.h").resolve() << endl;
-    cout << "filesystem/path.h:resolve /a/b/c = " << path("filesystem/path.h").resolve("/a/b/c") << endl;
-    cout << "../filesystem/path.h:resolve /a/b/c = " << path("../filesystem/path.h").resolve("/a/b/c") << endl;
-    cout << "../filesystem/path.h:resolve /a/b/../c = " << path("../filesystem/path.h").resolve("/a/b/../c") << endl;
+    cout << "filesystem/path.h:resolve /a/b/c = " << path("/a/b/c").resolve("filesystem/path.h") << endl;
+    cout << "../filesystem/path.h:resolve /a/b/c = " << path("/a/b/c").resolve("../filesystem/path.h") << endl;
+    cout << "../filesystem/path.h:resolve /a/b/../c = " << path("/a/b/../c").resolve("../filesystem/path.h") << endl;
     cout << "../filesystem:exists = " << path("../filesystem").exists() << endl;
     cout << "../filesystem:is_file = " << path("../filesystem").is_file() << endl;
     cout << "../filesystem:is_directory = " << path("../filesystem").is_directory() << endl;

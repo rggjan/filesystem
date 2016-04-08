@@ -308,43 +308,28 @@ public:
 		return result;
 	}
 
-	path resolve(const path &from) const {
-		if (!from.absolute) {
-			throw std::runtime_error("path::resolve(): 'from' path must be absolute");
+	path resolve(const path &to) const {
+		path result = this->resolve();
+
+		if (!result.absolute) {
+			throw std::runtime_error("path::resolve(): this path must be absolute, must exist so make_absolute() works");
 		}
 
-		if (this->type != from.type) {
-			throw std::runtime_error("path::resolve(): 'from' path has different type");
+		if (this->type != result.type) {
+			throw std::runtime_error("path::resolve(): 'to' path has different type");
 		}
 		
-		if (this->absolute) {
-			return *this;
+		if (to.absolute) {
+			return to;
 		}
 
-		path result;
-		result.absolute = true;
-		result.type = this->type;
-
-		for (std::string leaf : from.leafs) {
+		for (std::string leaf : to.leafs) {
 			if (leaf == ".") {
 				continue;
 			}
 
 			if (leaf == ".." && result.leafs.size()) {
 				result.leafs.pop_back();
-				continue;
-			}
-
-			result.leafs.push_back(leaf);
-		}
-
-		for (std::string leaf : this->leafs) {
-			if (leaf == ".") {
-				continue;
-			}
-
-			if (leaf == "..") {
-				result = result.dirname();
 				continue;
 			}
 
