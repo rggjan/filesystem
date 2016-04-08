@@ -35,6 +35,7 @@ int main(int argc, char **argv) {
     cout << "filesystem/path.h:is_directory = " << path("filesystem/path.h").is_directory() << endl;
     cout << "filesystem/path.h:basename = " << path("filesystem/path.h").basename() << endl;
     cout << "filesystem/path.h:extension = " << path("filesystem/path.h").extension() << endl;
+    cout << "a/../../foo.c:resolve = " << path("a/../../foo.c").resolve() << endl;
     if (path("filesystem/path.h").exists()) {
         cout << "filesystem/path.h:make_absolute = " << path("filesystem/path.h").make_absolute() << endl;
     }

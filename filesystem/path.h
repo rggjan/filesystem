@@ -276,18 +276,18 @@ public:
 			}
 
 			if (*itr == "..") {
-				if (!relLeafFound) {
+				if (itr == result.leafs.begin()) {
 					if (result.absolute) {
 						itr = result.leafs.erase(itr);
-						continue;
 					} else {
 						++itr;
-						continue;
 					}
+				} else if (*(itr - 1) != "..") {
+					itr = result.leafs.erase(itr - 1);
+					itr = result.leafs.erase(itr);
+				} else {
+					++itr;
 				}
-
-				itr = result.leafs.erase(itr - 1);
-				itr = result.leafs.erase(itr);
 				continue;
 			}
 
