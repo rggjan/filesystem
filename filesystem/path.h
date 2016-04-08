@@ -174,7 +174,7 @@ public:
 	}
 
 	std::string extension() const {
-		const std::string &name = filename();
+		const std::string &name = basename();
 		
 		size_t pos = name.find_last_of(".");
 		if (pos == std::string::npos) {
@@ -184,15 +184,7 @@ public:
 		return name.substr(pos+1);
 	}
 
-	std::string filename() const {
-		if (empty()) {
-			return "";
-		}
-
-		return this->leafs[this->leafs.size() - 1];
-	}
-
-	path parent_path() const {
+	path dirname() const {
 		path result;
 		result.absolute = this->absolute;
 
@@ -261,13 +253,11 @@ public:
 		}
 	}
 
-	path dirname() const {
-		path result(*this);
-		result.leafs.pop_back();
-		return result;
-	}
-
 	std::string basename() const {
+		if (this->empty()) {
+			return "";
+		}
+
 		return this->leafs.back();
 	}
 
