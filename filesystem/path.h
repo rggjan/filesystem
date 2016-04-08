@@ -271,6 +271,43 @@ public:
 		return this->leafs.back();
 	}
 
+	path resolve() const {
+		path result(*this);
+
+		if (this->exists()) {
+			result = this->make_absolute();
+		}
+
+		bool relLeafFound = false;
+		for (auto itr = result.leafs.begin(); itr != result.leafs.end();) {
+			if (*itr == ".") {
+				itr = result.leafs.erase(itr);
+				continue;
+			}
+
+			if (*itr == "..") {
+				if (!relLeafFound) {
+					if (result.absolute) {
+						itr = result.leafs.erase(itr);
+						continue;
+					} else {
+						++itr;
+						continue;
+					}
+				}
+
+				itr = result.leafs.erase(itr - 1);
+				itr = result.leafs.erase(itr);
+				continue;
+			}
+
+			relLeafFound = true;
+			++itr;
+		}
+
+		return result;
+	}
+
 	path resolve(const path &from) const {
 		if (!from.absolute) {
 			throw std::runtime_error("path::resolve(): 'from' path must be absolute");

@@ -39,6 +39,9 @@ int main(int argc, char **argv) {
     }
     cout << "filesystem/path.h:dirname = " << path("filesystem/path.h").dirname() << endl;
     cout << "filesystem/path.h:basename = " << path("filesystem/path.h").basename() << endl;
+    cout << "filesystem/path.h:resolve = " << path("filesystem/path.h").resolve() << endl;
+    cout << "/a/b/c/../../d/e/foo/../././././bar.h:resolve = " << path("/a/b/c/../../d/e/foo/../././././bar.h").resolve() << endl;
+    cout << "filesystem/../path.h:resolve = " << path("filesystem/../path.h").resolve() << endl;
     cout << "filesystem/path.h:resolve /a/b/c = " << path("filesystem/path.h").resolve("/a/b/c") << endl;
     cout << "../filesystem/path.h:resolve /a/b/c = " << path("../filesystem/path.h").resolve("/a/b/c") << endl;
     cout << "../filesystem/path.h:resolve /a/b/../c = " << path("../filesystem/path.h").resolve("/a/b/../c") << endl;
@@ -47,9 +50,12 @@ int main(int argc, char **argv) {
     cout << "../filesystem:is_directory = " << path("../filesystem").is_directory() << endl;
     cout << "../filesystem:extension = " << path("../filesystem").extension() << endl;
     cout << "../filesystem:filename = " << path("../filesystem").filename() << endl;
+    cout << "../filesystem/path.h:resolve = " << path("../filesystem/path.h").resolve() << endl;
     if (path("../filesystem").exists()) {
         cout << "../filesystem:make_absolute = " << path("../filesystem").make_absolute() << endl;
     }
+    cout << "../../a/b/c/../d:resolve = " << path("../../a/b/c/../d").resolve() << endl;
+    cout << "/../../a/b/c/../d:resolve = " << path("/../../a/b/c/../d").resolve() << endl;
 
     cout << "resolve(filesystem/path.h) = " << resolver().resolve("filesystem/path.h") << endl;
     cout << "resolve(nonexistant) = " << resolver().resolve("nonexistant") << endl;
