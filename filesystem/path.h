@@ -18,6 +18,7 @@
 #include <cstdlib>
 #include <cerrno>
 #include <cstring>
+#include <utility>
 
 #if defined(_WIN32)
 # include <windows.h>
@@ -470,7 +471,7 @@ public:
 	}
 
 	bool operator <(const path &right) const {
-		return this->type < right.type && this->absolute < right.absolute && this->leafs < right.leafs;
+		return std::tie(this->type, this->absolute, this->leafs) < std::tie(right.type, right.absolute, right.leafs);
 	}
 
 	/*
