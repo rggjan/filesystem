@@ -477,8 +477,13 @@ public:
 			throw std::runtime_error("path must be absolute to mkdirp()");
 		}
 
-		if (!this->exists()) {
-			if (!this->dirname().mkdirp()) {
+		if (this->exists()) {
+			return true;
+		}
+
+		path parent = this->dirname();
+		if (!parent.exists()) {
+			if (!parent.mkdirp()) {
 				return false;
 			}
 		}
