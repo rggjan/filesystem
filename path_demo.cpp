@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 #include "filesystem/path.h"
 #include "filesystem/resolver.h"
 
@@ -28,6 +29,12 @@ int main(int argc, char **argv) {
     cout << path().dirname() << endl;
     cout << "some/path.ext:operator==() = " << (path("some/path.ext") == path("some/path.ext")) << endl;
     cout << "some/path.ext:operator==() (unequal) = " << (path("some/path.ext") == path("another/path.ext")) << endl;
+
+    map<path, int> pathInts;
+    pathInts[path::getcwd()] = 125;
+    pathInts[path::getcwd() / "foo"] = 1337;
+    cout << "map[cwd] (125) = " << pathInts[path::getcwd()] << endl;
+    cout << "map[cwd/foo] (1337) = " << pathInts[path::getcwd() / "foo"] << endl;
 
     cout << "nonexistant:exists = " << path("nonexistant").exists() << endl;
     cout << "nonexistant:is_file = " << path("nonexistant").is_file() << endl;

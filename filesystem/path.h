@@ -469,6 +469,10 @@ public:
 		return left.leafs == this->leafs;
 	}
 
+	bool operator <(const path &right) const {
+		return this->type < right.type && this->absolute < right.absolute && this->leafs < right.leafs;
+	}
+
 	/*
 		not the safest method! use with care!
 	*/
