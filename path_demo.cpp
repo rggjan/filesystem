@@ -1,5 +1,6 @@
 #include <iostream>
 #include <map>
+#include <unordered_set>
 #include "filesystem/path.h"
 #include "filesystem/resolver.h"
 
@@ -35,6 +36,12 @@ int main(int argc, char **argv) {
     pathInts[path::getcwd() / "foo"] = 1337;
     cout << "map[cwd] (125) = " << pathInts[path::getcwd()] << endl;
     cout << "map[cwd/foo] (1337) = " << pathInts[path::getcwd() / "foo"] << endl;
+
+    unordered_set<path> pathSet;
+    pathSet.insert("foo/bar");
+    pathSet.insert("qux/qix");
+    pathSet.insert("foo/bar");
+    cout << "pathSet size (2) = " << pathSet.size() << endl;
 
     cout << "nonexistant:exists = " << path("nonexistant").exists() << endl;
     cout << "nonexistant:is_file = " << path("nonexistant").is_file() << endl;

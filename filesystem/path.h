@@ -43,6 +43,7 @@ inline bool create_directory(const path&);
  * library at some point in the future.
  */
 class path {
+	friend std::hash<class filesystem::path>;
 public:
 	enum path_type {
 		windows_path = 0,
@@ -532,4 +533,33 @@ inline bool create_directory(const path& p) {
 #endif
 }
 
+
+
 NAMESPACE_END(filesystem)
+
+namespace std {
+
+template <>
+struct hash<filesystem::path> {
+	typedef filesystem::path argument_type;
+	typedef std::size_t result_type;
+
+	result_type operator()(const filesystem::path &path) const {
+		std::size_t seed { 0 };
+		hash_combine(seed, (size_t) path.type);
+		hash_combine(seed, path.absolute);
+		for (const string &s : path.leafs) {
+			hash_combine(seed, s);
+		}
+		return seed;
+	}
+
+private:
+	template <class T>
+	static inline void hash_combine(std::size_t& seed, const T& v) {
+	    std::hash<T> hasher;
+	    seed ^= hasher(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+	}
+};
+
+}
