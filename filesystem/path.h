@@ -32,6 +32,8 @@
 
 NAMESPACE_BEGIN(filesystem)
 
+inline bool create_directory(const path&);
+
 /**
  * \brief Simple class for manipulating paths on Linux/Windows/Mac OS
  *
@@ -465,6 +467,23 @@ public:
 
 	bool operator ==(const path &left) const {
 		return left.leafs == this->leafs;
+	}
+
+	/*
+		not the safest method! use with care!
+	*/
+	bool mkdirp() const {
+		if (!this->absolute) {
+			throw std::runtime_error("path must be absolute to mkdirp()");
+		}
+
+		if (!this->exists()) {
+			if (!this->dirname().mkdirp()) {
+				return false;
+			}
+		}
+
+		return create_directory(*this);
 	}
 
 protected:
