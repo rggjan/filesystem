@@ -45,6 +45,8 @@ inline bool create_directory(const path&);
 class path {
 	friend std::hash<class filesystem::path>;
 public:
+	typedef std::string value_type;
+
 	enum path_type {
 		windows_path = 0,
 		posix_path = 1,
@@ -495,6 +497,10 @@ public:
 		}
 
 		return create_directory(*this);
+	}
+
+	void push_back(std::string leaf) {
+		this->leafs.push_back(leaf);
 	}
 
 protected:
