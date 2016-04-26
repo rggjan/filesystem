@@ -294,7 +294,6 @@ public:
 			result = this->make_absolute();
 		}
 
-		bool relLeafFound = false;
 		for (auto itr = result.leafs.begin(); itr != result.leafs.end();) {
 			if (*itr == ".") {
 				itr = result.leafs.erase(itr);
@@ -317,7 +316,6 @@ public:
 				continue;
 			}
 
-			relLeafFound = true;
 			++itr;
 		}
 
