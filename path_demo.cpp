@@ -7,19 +7,56 @@
 using namespace std;
 using namespace filesystem;
 
-int main(int argc, char **argv) {
-#if !defined(WIN32)
-    path path1("/dir 1/dir 2/");
+// TAP-compliant test
+int failed_nr = 0;
+int test_nr = 0;
+#define DIAG(out) std::cout << "# " << out << std::endl
+#define _OK(cond, has_diag, diag) \
+    if (cond) \
+        std::cout << "ok " << (++test_nr) << std::endl; \
+    else { \
+        failed_nr++; \
+        std::cout << "not ok " << (++test_nr) << std::endl; \
+        DIAG("  Failed test at " << __FILE__ << " line " << __LINE__ << "."); \
+        if (has_diag) DIAG(diag); \
+    }
+
+#define OK(cond)        _OK((cond),     0, "")
+#define NOK(cond)       _OK(!(cond),    0, "")
+#define IS(a, b)        _OK((a) == (b), 1, (a))
+#define ISNT(a, b)      _OK((a) != (b), 1, (a))
+#define PASS()          _OK(true,       0, "")
+#define FAIL()          _OK(false,      0, "")
+
+#define DONE_TESTING() \
+    std::cout << "1.." << test_nr << std::endl; \
+    if (failed_nr == 0) { \
+        return 0; \
+    } else { \
+        DIAG("Looks like you failed " << failed_nr << " test" << \
+             (failed_nr > 1 ? "s" : "") << " of " << test_nr << "."); \
+        return 1; \
+    }
+
+// Platform specifics
+#if !defined(_WIN32)
+#define VOL     ""
+#define SEP     "/"
 #else
-    path path1("C:\\dir 1\\dir 2\\");
+#define VOL     "c:"
+#define SEP     "\\"
 #endif
+
+int main(int argc, char **argv) {
+    path path1(VOL SEP "dir 1" SEP "dir 2" SEP);
     path path2("dir 3");
 
-    cout << path1.length() << endl;
-    for (size_t i = 0; i < path1.length(); i++) {
-	cout << ": " << path1[i] << endl;
-    }
-    cout << path1.exists() << endl;
+    IS(path1.length(), 2);
+    IS(path1[0], "dir 1");
+    IS(path1[1], "dir 2");
+
+    NOK(path1.exists());
+
     cout << path1 << endl;
     cout << (path1/path1.as_relative()) << endl;
     cout << (path1/path2) << endl;
@@ -79,5 +116,6 @@ int main(int argc, char **argv) {
 
     cout << "resolve(filesystem/path.h) = " << resolver().resolve("filesystem/path.h") << endl;
     cout << "resolve(nonexistant) = " << resolver().resolve("nonexistant") << endl;
-    return 0;
+
+    DONE_TESTING();
 }
