@@ -19,6 +19,8 @@
 #include <cerrno>
 #include <cstring>
 #include <utility>
+#include <climits>
+#include <cstdio>
 
 #if defined(_WIN32)
 # include <windows.h>
@@ -68,11 +70,13 @@ public:
 			, absolute(path.absolute) {
 	}
 
+#if __cplusplus >= 201103L
 	path(path &&path)
 			: type(path.type)
 			, leafs(std::move(path.leafs))
 			, absolute(path.absolute) {
 	}
+#endif
 
 	path(const char *string) {
 		this->set(string);
