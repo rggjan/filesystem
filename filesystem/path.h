@@ -95,6 +95,12 @@ public:
 	}
 #endif
 
+	path(const std::vector<std::string> &leafs)
+			: type(native_path)
+			, leafs(leafs)
+			, absolute(false) {
+	}
+
 	size_t length() const {
 		return this->leafs.size();
 	}
@@ -121,6 +127,14 @@ public:
 
 	const std::vector<std::string>::const_iterator cend() const {
 		return this->leafs.cend();
+	}
+
+	path slice(size_t begin) const {
+		return path(std::vector<std::string>(this->leafs.cbegin() + begin, this->leafs.cend()));
+	}
+
+	path slice(size_t begin, size_t end) const {
+		return path(std::vector<std::string>(this->leafs.cbegin() + begin, this->leafs.cbegin() + end));
 	}
 
 	path make_absolute() const {
@@ -201,7 +215,7 @@ public:
 
 	std::string extension() const {
 		const std::string &name = basename();
-		
+
 		size_t pos = name.find_last_of(".");
 		if (pos == std::string::npos) {
 			return "";
@@ -348,7 +362,7 @@ public:
 		if (this->type != result.type) {
 			throw std::runtime_error("path::resolve(): 'to' path has different type");
 		}
-		
+
 		if (to.absolute) {
 			return to;
 		}

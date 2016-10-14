@@ -23,8 +23,8 @@ int test_nr = 0;
 
 #define OK(cond)        _OK((cond),     0, "")
 #define NOK(cond)       _OK(!(cond),    0, "")
-#define IS(a, b)        _OK((a) == (b), 1, (a))
-#define ISNT(a, b)      _OK((a) != (b), 1, (a))
+#define IS(a, b)        _OK((a) == (b), 1, a << "==" << b)
+#define ISNT(a, b)      _OK((a) != (b), 1, a << "!=" << b)
 #define PASS()          _OK(true,       0, "")
 #define FAIL()          _OK(false,      0, "")
 
@@ -56,6 +56,14 @@ int main(int argc, char **argv) {
     IS(path1[1], "dir 2");
 
     NOK(path1.exists());
+
+    IS(path("a/b/c/d").slice(1), path("b/c/d"));
+    IS(path("a/b/c/d").slice(2), path("c/d"));
+    IS(path("a/b/c/d").slice(0, 0), path());
+    IS(path("a/b/c/d").slice(0, 1), path("a"));
+    IS(path("a/b/c/d").slice(1, 2), path("b"));
+    IS(path("a/b/c/d").slice(0, 2), path("a/b"));
+    IS(path("a/b/c/d").slice(0, 3), path("a/b/c"));
 
     cout << path1 << endl;
     cout << (path1/path1.as_relative()) << endl;
