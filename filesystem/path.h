@@ -489,6 +489,10 @@ public:
 		return left.leafs == this->leafs;
 	}
 
+	bool operator !=(const path &left) const {
+		return left.leafs != this->leafs;
+	}
+
 	bool operator <(const path &right) const {
 		return std::tie(this->type, this->absolute, this->leafs) < std::tie(right.type, right.absolute, right.leafs);
 	}
