@@ -45,7 +45,7 @@ inline bool create_directory(const path&);
  * library at some point in the future.
  */
 class path {
-	friend class std::hash<class filesystem::path>;
+	friend struct std::hash<class filesystem::path>;
 public:
 	typedef std::string value_type;
 
