@@ -72,8 +72,9 @@ int main(int argc, char **argv) {
     IS(path("a/b/c/d").slice(0, 2), path("a/b"));
     IS(path("a/b/c/d").slice(0, 3), path("a/b/c"));
 
-    cout << path1 << endl;
-    cout << (path1/path1.as_relative()) << endl;
+	IS(path1, VOL SEP "dir 1" SEP "dir 2");
+
+	cout << (path1/path1.as_relative()) << endl;
     cout << (path1/path2) << endl;
     cout << (path1/path2).dirname() << endl;
     cout << (path1/path2).dirname().dirname() << endl;
