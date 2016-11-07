@@ -39,21 +39,28 @@ int test_nr = 0;
     }
 
 // Platform specifics
-#if !defined(_WIN32)
-#define VOL     ""
-#define SEP     "/"
-#else
+#ifdef _WIN32
 #define VOL     "c:"
 #define SEP     "\\"
+#else
+#define VOL     ""
+#define SEP     "/"
 #endif
 
 int main(int argc, char **argv) {
     path path1(VOL SEP "dir 1" SEP "dir 2" SEP);
     path path2("dir 3");
 
-    IS(path1.length(), 2);
-    IS(path1[0], "dir 1");
-    IS(path1[1], "dir 2");
+#ifdef _WIN32
+    IS(path1.length(), 3);
+	IS(path1[0], "c:");
+	IS(path1[1], "dir 1");
+    IS(path1[2], "dir 2");
+#else
+	IS(path1.length(), 2);
+	IS(path1[0], "dir 1");
+	IS(path1[1], "dir 2");
+#endif
 
     NOK(path1.exists());
 
