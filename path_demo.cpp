@@ -51,6 +51,15 @@ int main(int argc, char **argv) {
     path path1(VOL SEP "dir 1" SEP "dir 2" SEP);
     path path2("dir 3");
 
+	// check empty path
+	path p;
+	IS(p.length(), 0);
+	IS(p, "");
+
+	p = path("");
+	IS(p.length(), 0);
+	IS(p, "");
+
 #ifdef _WIN32
     IS(path1.length(), 3);
 	IS(path1[0], "c:");
