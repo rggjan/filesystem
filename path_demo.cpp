@@ -73,23 +73,45 @@ int main(int argc, char **argv) {
 
     NOK(path1.exists());
 
-    IS(path("a/b/c/d").slice(1), path("b/c/d"));
-    IS(path("a/b/c/d").slice(2), path("c/d"));
-    IS(path("a/b/c/d").slice(0, 0), path());
-    IS(path("a/b/c/d").slice(0, 1), path("a"));
-    IS(path("a/b/c/d").slice(1, 2), path("b"));
-    IS(path("a/b/c/d").slice(0, 2), path("a/b"));
-    IS(path("a/b/c/d").slice(0, 3), path("a/b/c"));
+	p = path("a/b/c/d");
+    IS(p.slice(1), path("b/c/d"));
+    IS(p.slice(2), path("c/d"));
+    IS(p.slice(0, 0), path());
+    IS(p.slice(0, 1), path("a"));
+    IS(p.slice(1, 2), path("b"));
+    IS(p.slice(0, 2), path("a/b"));
+    IS(p.slice(0, 3), path("a/b/c"));
 
 	IS(path1, VOL SEP "dir 1" SEP "dir 2");
 
+	p = (path1 / path2); 
+	IS(p, VOL SEP "dir 1" SEP "dir 2" SEP "dir 3");
+
+	p = (path1 / path2).dirname(); 
+	IS(p, VOL SEP "dir 1" SEP "dir 2");
+
+	p = (path1 / path2).dirname().dirname(); 
+	IS(p, VOL SEP "dir 1");
+
+#ifdef _WIN32
+	p = (path1 / path2).dirname().dirname().dirname(); 
+	IS(p, VOL);
+
+	p = (path1 / path2).dirname().dirname().dirname().dirname(); 
+	IS(p, "");
+#else
+	p = (path1 / path2).dirname().dirname().dirname(); 
+	IS(p, SEP);
+
+	p = (path1 / path2).dirname().dirname().dirname().dirname(); 
+	IS(p, SEP);
+#endif
+
+	p = path().dirname();
+	IS(p, "..");
+
 	cout << (path1/path1.as_relative()) << endl;
-    cout << (path1/path2) << endl;
-    cout << (path1/path2).dirname() << endl;
-    cout << (path1/path2).dirname().dirname() << endl;
-    cout << (path1/path2).dirname().dirname().dirname() << endl;
-    cout << (path1/path2).dirname().dirname().dirname().dirname() << endl;
-    cout << path().dirname() << endl;
+
     cout << "some/path.ext:operator==() = " << (path("some/path.ext") == path("some/path.ext")) << endl;
     cout << "some/path.ext:operator==() (unequal) = " << (path("some/path.ext") == path("another/path.ext")) << endl;
 
