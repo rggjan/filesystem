@@ -528,6 +528,9 @@ protected:
 		std::string::size_type lastPos = 0, pos = string.find_first_of(delim, lastPos);
 		std::vector<std::string> tokens;
 
+		if (string.empty())
+			return tokens;		// return empty list for empty input
+
 		while (lastPos != std::string::npos) {
 			if (pos != lastPos) {
 				tokens.push_back(string.substr(lastPos, pos - lastPos));
